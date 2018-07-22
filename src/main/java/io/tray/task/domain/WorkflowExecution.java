@@ -9,6 +9,10 @@ public class WorkflowExecution implements Serializable {
   private int stepIndex;
   private LocalDateTime timestamp;
 
+  public WorkflowExecution() {
+    super();
+  }
+
   public WorkflowExecution(final long workflowExecutionId, final long workflowId) {
     this.workflowExecutionId = workflowExecutionId;
     this.workflowId = workflowId;

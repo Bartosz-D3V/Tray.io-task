@@ -6,6 +6,10 @@ public class Workflow implements Serializable {
   private long workflowId;
   private int numberOfSteps;
 
+  public Workflow() {
+    super();
+  }
+
   public Workflow(final long workflowId, final int numberOfSteps) {
     this.workflowId = workflowId;
     this.numberOfSteps = numberOfSteps;

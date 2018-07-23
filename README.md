@@ -1,5 +1,7 @@
 # Tray.io interview task
 
+[![Build Status](https://travis-ci.org/Bartosz-D3V/Tray.io-task.svg?branch=master)](https://travis-ci.org/Bartosz-D3V/Tray.io-task)
+
 ## Introduction
 The following project has been created as part of the assessment provided during recruitment process.
 

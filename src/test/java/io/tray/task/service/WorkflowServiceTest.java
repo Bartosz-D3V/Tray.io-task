@@ -77,15 +77,4 @@ public class WorkflowServiceTest {
 
     workflowService.incrementCurrentStepIndex(1);
   }
-
-  @Test(expected = ValidationException.class)
-  public void incrementCurrentStepIndexShouldThrowErrorIfWorkflowExecutionAlreadyExist() throws ValidationException {
-    when(workflowRepository.hasWorkflow(111)).thenReturn(true);
-    when(workflowRepository.hasWorkflowExecution(1)).thenReturn(true);
-
-    final WorkflowExecution workflowExecution = new WorkflowExecution(1, 111);
-    when(workflowRepository.getWorkflowExecution(1)).thenReturn(workflowExecution);
-
-    workflowService.incrementCurrentStepIndex(1);
-  }
 }

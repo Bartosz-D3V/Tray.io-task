@@ -14,7 +14,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -71,5 +74,21 @@ public class WorkflowControllerTest {
       .andReturn();
 
     assertNull(mvcResult.getResponse().getErrorMessage());
+  }
+
+  @Test
+  public void getWorkflowExecutionShouldReturnWorkflowExecution() throws Exception {
+    final String workflowExecutionAsJSON = objectMapper.writeValueAsString(workflowExecution);
+    when(workflowService.getWorkflowExecution(1L)).thenReturn(workflowExecution);
+
+    final MvcResult mvcResult = mockMvc
+      .perform(
+        get("/workflows/executions/{workflowExecutionId}", 1L)
+          .accept(MediaType.APPLICATION_JSON_VALUE))
+      .andExpect(status().isOk())
+      .andReturn();
+
+    assertNull(mvcResult.getResponse().getErrorMessage());
+    assertEquals(workflowExecutionAsJSON, mvcResult.getResponse().getContentAsString());
   }
 }

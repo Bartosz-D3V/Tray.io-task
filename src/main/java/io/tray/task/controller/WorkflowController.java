@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,7 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Collections;
 import java.util.Map;
 
-@RestController(value = "/workflows")
+@RestController
+@RequestMapping(value = "/workflows")
 public final class WorkflowController {
   private final WorkflowService workflowService;
 
@@ -52,11 +54,14 @@ public final class WorkflowController {
     produces = MediaType.APPLICATION_JSON_VALUE)
   @ResponseBody
   @ResponseStatus(HttpStatus.ACCEPTED)
-  public Map<String, Long> incrementCurrentStep(@PathVariable final long workflowExecutionId) throws ValidationException {
+  public Map<String, Long> incrementCurrentStep(@PathVariable final long workflowExecutionId)
+    throws ValidationException {
     return Collections.singletonMap("currentStepIndex", workflowService.incrementCurrentStepIndex(workflowExecutionId));
   }
 
-  @GetMapping(value = "/{workflowExecutionId}")
+  @GetMapping(
+    value = "/executions/{workflowExecutionId}",
+    produces = MediaType.APPLICATION_JSON_VALUE)
   @ResponseBody
   @ResponseStatus(HttpStatus.OK)
   public WorkflowExecution getWorkflowExecution(@PathVariable final long workflowExecutionId) {

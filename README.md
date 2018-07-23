@@ -49,7 +49,7 @@ URL: http://localhost:8080/workflows/executions/{workflowExecutionId}
 
 _Example URL: http://localhost:8080/workflows/executions/1_
 
-Method: POST
+Method: PUT
 
 Content: Workflow execution object in JSON format (as specified in requirements)
 

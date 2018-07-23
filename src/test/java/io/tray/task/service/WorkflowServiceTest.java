@@ -10,8 +10,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.time.LocalDateTime;
-
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
@@ -34,7 +32,6 @@ public class WorkflowServiceTest {
 
     assertEquals(workflowExecution, workflowService.createWorkflowExecution(workflowExecution));
     assertEquals(0, workflowExecution.getStepIndex());
-    assertEquals(LocalDateTime.now(), workflowExecution.getTimestamp());
   }
 
   @Test(expected = ValidationException.class)
@@ -74,6 +71,13 @@ public class WorkflowServiceTest {
 
     final WorkflowExecution workflowExecution = new WorkflowExecution(1, 111);
     when(workflowRepository.getWorkflowExecution(1)).thenReturn(workflowExecution);
+
+    workflowService.incrementCurrentStepIndex(1);
+  }
+
+  @Test(expected = ValidationException.class)
+  public void incrementCurrentStepIndexShouldThrowErrorIfRequestedWorkflowExecutionDoesNotExist() throws ValidationException {
+    when(workflowRepository.getWorkflowExecution(1)).thenReturn(null);
 
     workflowService.incrementCurrentStepIndex(1);
   }

@@ -39,6 +39,9 @@ public class WorkflowServiceImpl implements WorkflowService {
   @Override
   public long incrementCurrentStepIndex(final long workflowExecutionId) throws ValidationException {
     final WorkflowExecution workflowExecution = workflowRepository.getWorkflowExecution(workflowExecutionId);
+    if (workflowExecution == null) {
+      throw new ValidationException("Workflow execution with given ID does not exist");
+    }
     validateWorkflow(workflowExecution);
     workflowExecution.incrementStepIndex();
     updateWorkflowExecution(workflowExecution);
@@ -52,7 +55,7 @@ public class WorkflowServiceImpl implements WorkflowService {
   }
 
   private void validateWorkflowExecution(final WorkflowExecution workflowExecution) throws ValidationException {
-    if(workflowRepository.hasWorkflowExecution(workflowExecution.getWorkflowExecutionId())) {
+    if (workflowRepository.hasWorkflowExecution(workflowExecution.getWorkflowExecutionId())) {
       throw new ValidationException("Workflow execution with given ID already exist");
     }
   }
